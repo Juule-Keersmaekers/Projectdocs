@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vertrekbord - Replica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b2260;
+      --cyan:#0db0ff;
+      --cyan-dark:#0aa0e6;
+      --cream:#fff9d3;
+      --white:#ffffff;
+      --text:#111;
+      --blue:#0aa0e6;
+      --grey:#bfc3c7;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; background:var(--bg); font-family:'Montserrat',sans-serif; display:flex; align-items:center; justify-content:center; padding:30px;
+    }
+    .board{
+      width:1200px; max-width:96vw; background:#fffef0; border:18px solid var(--cream); box-shadow:0 0 0 6px var(--cyan);
+      box-sizing:border-box; padding:18px; position:relative; transition:box-shadow 0.3s ease;
+    }
+    .board:hover{box-shadow:0 0 0 6px var(--cyan), 0 0 15px rgba(13,176,255,0.6);}
+
+    .topbar{display:flex; gap:18px; align-items:center; justify-content:space-between; margin-bottom:10px}
+    .title{background:var(--cyan); color:var(--white); padding:10px 20px; font-weight:800; font-size:38px; border-radius:4px; transition:background 0.3s ease;}
+    .title:hover{background:var(--cyan-dark);}
+    .date-time{display:flex; gap:10px; align-items:center}
+    .date-time .box{background:var(--cyan); color:var(--white); padding:10px 18px; font-weight:800; font-size:30px; border-radius:4px;}
+
+    .header-row{
+      display:grid; grid-template-columns: 1.8fr 0.9fr 0.7fr 0.6fr 0.5fr 0.6fr;
+      background:var(--cyan); color:var(--white);
+      font-weight:800; font-size:22px;
+      border-radius:4px; text-align:center;
+      border-bottom:6px solid var(--cyan-dark);
+    }
+    .header-row div{
+      padding:8px 0; border-right:6px solid var(--cyan-dark);
+    }
+    .header-row div:last-child{border-right:none;}
+
+    .table{
+      border-left:6px solid var(--cyan-dark);
+      border-right:6px solid var(--cyan-dark);
+      border-bottom:6px solid var(--cyan-dark);
+      background:#fffef0;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1.8fr 0.9fr 0.7fr 0.6fr 0.5fr 0.6fr;
+      align-items:stretch;
+      border-bottom:6px solid var(--cyan-dark);
+      transition:background 0.25s ease;
+    }
+    .row:hover{background:rgba(13,176,255,0.07);}
+
+    .cell{
+      box-sizing:border-box;
+      background:var(--cream);
+      padding:14px;
+      font-size:30px;
+      font-weight:700;
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-right:6px solid var(--cyan-dark);
+      transition:transform 0.2s ease;
+    }
+    .cell:last-child{border-right:none}
+    .cell:hover{transform:scale(1.03);}
+
+    .cell.small{font-size:26px;}
+
+    /* Cancelled row styling */
+    .row.cancelled .cell{opacity:0.6; color:#999;}
+    .row.cancelled .cell .cell-text{font-size:14px;}
+
+    /* mannetje icoon */
+    .people{display:flex; gap:10px; align-items:flex-end; justify-content:center}
+    .person{position:relative; width:22px; height:22px; background:var(--blue); border-radius:50%; transition:background 0.3s ease;}
+    .person::after{
+      content:'';
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      width:30px;
+      height:22px;
+      border-radius:6px;
+      background:var(--blue);
+      transition:background 0.3s ease;
+    }
+    .person.grey{background:var(--grey);}
+    .person.grey::after{background:var(--grey);}
+    .people:hover .person:not(.grey){background:var(--cyan-dark);}
+    .people:hover .person:not(.grey)::after{background:var(--cyan-dark);}
+
+    .row.alt .cell{background:var(--white)}
+  </style>
+</head>
+<body>
+  <div class="board" role="main">
+    <div class="topbar">
+      <div class="title">VERTREKBORDSCHERM</div>
+      <div style="flex:1"></div>
+      <div class="date-time">
+        <div class="box">MAANDAG  29/09</div>
+        <div class="box">22:00</div>
+      </div>
+    </div>
+
+    <div class="header-row">
+      <div>BESTEMMING</div>
+      <div>VERTREKTIJD</div>
+      <div>STATUS</div>
+      <div>TYPE</div>
+      <div>PERRON</div>
+      <div>DRUKTE</div>
+    </div>
+
+    <div class="table">
+      <div class="row alt">
+        <div class="cell">Bestemming</div>
+        <div class="cell">22:04</div>
+        <div class="cell small"><span class="cell-text">Op tijd</span></div>
+        <div class="cell small">IC</div>
+        <div class="cell small">12</div>
+        <div class="cell small"><div class="people"><span class="person"></span><span class="person grey"></span><span class="person grey"></span></div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell">Bestemming</div>
+        <div class="cell">22:23</div>
+        <div class="cell small"><span class="cell-text">+5</span></div>
+        <div class="cell small">S</div>
+        <div class="cell small">4</div>
+        <div class="cell small"><div class="people"><span class="person"></span><span class="person"></span><span class="person"></span></div></div>
+      </div>
+
+      <div class="row alt">
+        <div class="cell">Bestemming</div>
+        <div class="cell">22:27</div>
+        <div class="cell small"><span class="cell-text">Op tijd</span></div>
+        <div class="cell small">IC</div>
+        <div class="cell small">1</div>
+        <div class="cell small"><div class="people"><span class="person"></span><span class="person"></span><span class="person grey"></span></div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell">Bestemming</div>
+        <div class="cell">22:34</div>
+        <div class="cell small"><span class="cell-text">Op tijd</span></div>
+        <div class="cell small">IC</div>
+        <div class="cell small">9</div>
+        <div class="cell small"><div class="people"><span class="person"></span><span class="person"></span><span class="person grey"></span></div></div>
+      </div>
+
+      <div class="row cancelled">
+        <div class="cell">Bestemming</div>
+        <div class="cell">22:40</div>
+        <div class="cell small"><span class="cell-text">Geannuleerd</span></div>
+        <div class="cell small">IC</div>
+        <div class="cell small">12</div>
+        <div class="cell small"><div class="people"><span class="person grey"></span><span class="person grey"></span><span class="person grey"></span></div></div>
+      </div>
+
+      <div class="row alt">
+        <div class="cell">Bestemming</div>
+        <div class="cell">22:45</div>
+        <div class="cell small"><span class="cell-text">+12</span></div>
+        <div class="cell small">S</div>
+        <div class="cell small">10</div>
+        <div class="cell small"><div class="people"><span class="person"></span><span class="person"></span><span class="person grey"></span></div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell">Bestemming</div>
+        <div class="cell">23:02</div>
+        <div class="cell small"><span class="cell-text">Op tijd</span></div>
+        <div class="cell small">IC</div>
+        <div class="cell small">7</div>
+        <div class="cell small"><div class="people"><span class="person"></span><span class="person grey"></span><span class="person grey"></span></div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

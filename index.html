@@ -1,0 +1,307 @@
+<!-- COMPLETE UPDATED INDEX.HTML WITH BLUE/LIGHT - YELLOW/DARK GLOW + CLEAR PARTICLE TRAIL -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lost in trainslation - Juule Keersmaekers</title>
+
+<style>
+/* ============================================================
+   KLEUREN
+============================================================ */
+:root {
+    --bg1: radial-gradient(circle at 20% 20%, #1e3a8a 0%, #0f172a 80%);
+    --text: #ffffff;
+    --nav-bg: rgba(15, 23, 42, 0.6);
+    --cta-bg: #38bdf8;
+    --cta-text: #0f172a;
+}
+
+:root.light {
+    --bg1: radial-gradient(circle at 20% 20%, #fff6b0 0%, #f2e89c 100%);
+    --text: #0a0a0a; /* donkerder en duidelijker tekst */
+    --nav-bg: rgba(255, 245, 180, 0.9);
+    --cta-bg: #61a8ff;
+    --cta-text: #0f172a;
+}
+
+/* ============================================================
+   BASIS
+============================================================ */
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: var(--bg1);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* ============================================================
+   MOUSE GLOW — updated for dark/light modes
+============================================================ */
+.mouse-glow {
+    position: fixed;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    opacity: 1;
+    transition: none;
+}
+
+/* Donker → GEEL */
+:root:not(.light) .mouse-glow {
+    background: radial-gradient(circle, rgba(255, 230, 120, 0.85), transparent 70%);
+}
+
+/* Licht → BLAUW */
+:root.light .mouse-glow {
+    /* FORCE Echt blauw, zonder wit filter-effect */
+    mix-blend-mode: normal; /* voorkomt dat blauw naar wit wordt gemengd */
+    background: radial-gradient(circle, rgba(0,120,255,0.9), transparent 65%);
+}
+
+/* ============================================================
+   PARTICLE TRAIL — duidelijke sparks
+============================================================ */
+.spark {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 1;
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+    z-index: 1;
+}
+
+:root:not(.light) .spark {
+    background: radial-gradient(circle, rgba(255, 220, 120, 0.9), transparent 70%);
+}
+:root.light .spark {
+    background: radial-gradient(circle, rgba(120, 190, 255, 0.95), transparent 70%);
+}
+
+/* ============================================================
+   NAVIGATIE
+============================================================ */
+.topbar {
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* LOGO */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    position: absolute;
+    left: 1rem;
+    top: 0.9rem;
+}
+
+.logo svg {
+    width: 40px;
+    height: 40px;
+    fill: var(--text);
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* MENU */
+.nav {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.4rem .8rem;
+    border-radius: 6px;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.nav a:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.cta {
+    background: var(--cta-bg);
+    color: var(--cta-text) !important;
+    font-weight: 700;
+}
+
+.cta:hover {
+    background: #0ea5e9;
+}
+
+/* THEME SWITCH — rechts */
+.theme-toggle {
+    position: absolute;
+    right: 2.2rem;
+    top: 1rem;
+    background: transparent;
+    border: 2px solid var(--text);
+    border-radius: 8px;
+    color: var(--text);
+    padding: .4rem .6rem;
+    cursor: pointer;
+    transition: .2s;
+    z-index: 200;
+}
+
+.theme-toggle:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 1rem 3rem;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.title {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    text-shadow: 0 4px 25px rgba(0,0,0,.4);
+}
+
+.subtitle {
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    margin-top: .7rem;
+    color: #cbd5e1;
+}
+
+.hero-button {
+    margin-top: 1.8rem;
+    display: inline-block;
+    background: var(--cta-bg);
+    color: var(--cta-text);
+    padding: 0.9rem 1.9rem;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .25s;
+    font-size: 1rem;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px);
+}
+
+/* ============================================================
+   RESPONSIVE FIXES
+============================================================ */
+@media (max-width: 700px) {
+    .logo { position: static; margin-bottom: .5rem; left: auto; top: auto; }
+    .theme-toggle { position: static; margin-top: .5rem; right: auto; top: auto; }
+    .topbar { flex-direction: column; padding-bottom: 1rem; }
+    .nav { justify-content: center; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Glow -->
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<!-- NAV -->
+<header class="topbar">
+
+    <div class="logo">
+        <svg viewBox="0 0 64 64"><path d="M8 32c0-10 8-18 18-18h12c10 0 18 8 18 18s-8 18-18 18H26C16 50 8 42 8 32zm10 0c0 8 6 14 14 14h8c8 0 14-6 14-14s-6-14-14-14h-8c-8 0-14 6-14 14zm14-7h8l4 7-4 7h-8l-4-7 4-7z"/></svg>
+        <span class="logo-text">Juule Keersmaekers </span>
+    </div>
+
+    <button class="theme-toggle" id="themeBtn">☀/🌙</button>
+
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="week 1.html">Week 1</a>
+        <a href="week 2.html">Week 2</a>
+        <a href="week 3.html">Week 3</a>
+        <a href="week 4.html">Week 4</a>
+        <a href="week 5.html">Week 5</a>
+        <a href="week 6.html">Week 6</a>
+        <a href="week 8.html">Week 8</a>
+        <a href="week 9.html">Week 9</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="title">Welkom bij mijn project</h1>
+        <p class="subtitle">Ontdek mijn weken, opdrachten en voortgang</p>
+        <a href="week 1.html" class="hero-button">Start bekijken</a>
+    </div>
+</section>
+
+<script>
+/* ========= DIRECT TRACKING GLOW ========= */
+const glow = document.getElementById("mouseGlow");
+
+document.addEventListener("mousemove", (e) => {
+    glow.style.left = e.pageX + "px";
+    glow.style.top = e.pageY + "px";
+});
+
+/* ========= IMPROVED SPARK TRAIL ========= */
+document.addEventListener("mousemove", (e) => {
+    const spark = document.createElement("div");
+    spark.className = "spark";
+    document.body.appendChild(spark);
+
+    spark.style.left = e.pageX + "px";
+    spark.style.top = e.pageY + "px";
+
+    const angle = Math.random() * 360;
+    const dist = 30 + Math.random() * 40;
+
+    spark.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
+    spark.style.opacity = 0;
+
+    setTimeout(() => spark.remove(), 650);
+});
+
+/* ========= THEME SWITCH ========= */
+const btn = document.getElementById("themeBtn");
+btn.addEventListener("click", () => {
+    document.documentElement.classList.toggle("light");
+});
+</script>
+
+</body>
+</html>
