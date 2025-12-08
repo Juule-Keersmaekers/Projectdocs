@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perron 12 - Antwerpen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blauw-donker: #0b1b61;
+      --blauw-licht: #72b2ff;
+      --geel-zacht: #fff8c2;
+      --wit: #ffffff;
+      --zwart: #000000;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--blauw-donker);
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .bord {
+      background-color: var(--geel-zacht);
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 0 10px var(--blauw-donker);
+      width: 380px;
+    }
+
+    .kop {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .kop .blok {
+      background-color: var(--blauw-licht);
+      color: var(--wit);
+      font-weight: 800;
+      font-size: 24px;
+      padding: 6px 16px;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    .schema {
+      border: 4px solid var(--blauw-licht);
+      background-color: var(--geel-zacht);
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+
+    .rij {
+      display: grid;
+      grid-template-columns: 1.5fr 0.8fr 1fr 0.5fr 1fr;
+      align-items: center;
+      padding: 6px 8px;
+      border-bottom: 2px solid var(--blauw-licht);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .rij:nth-child(odd) { background-color: #fffde3; }
+
+    .personen {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .persoon {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #333;
+      position: relative;
+    }
+
+    .persoon::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 1px;
+      width: 8px;
+      height: 9px;
+      border-radius: 3px;
+      background-color: inherit;
+    }
+
+    .persoon.licht { background-color: #eaeaea; }
+    .persoon.blauw { background-color: var(--blauw-licht); }
+
+    .onderdeel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .kaart {
+      background-color: var(--blauw-licht);
+      color: var(--wit);
+      text-align: center;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 10px;
+    }
+
+    .kaart.wit {
+      background-color: var(--wit);
+      color: var(--zwart);
+    }
+
+    .temp {
+      font-size: 38px;
+      font-weight: 900;
+    }
+
+    .meta {
+      font-size: 12px;
+      margin-top: -5px;
+    }
+
+    canvas#clock {
+      width: 100px;
+      height: 100px;
+    }
+
+    .foto img {
+      width: 100%;
+      height: 100px;
+      border-radius: 4px;
+      object-fit: cover;
+      animation: fade 12s infinite;
+    }
+
+    @keyframes fade {
+      0% { opacity: 1; }
+      25% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bord">
+    <div class="kop">
+      <div class="blok">PERRON</div>
+      <div class="blok">12</div>
+      <div class="blok">22:00</div>
+    </div>
+
+    <div class="schema">
+      <div class="rij"><div>Bestemming</div><div>22:04</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon blauw"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon blauw"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon blauw"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon blauw"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon"></div><div class="persoon licht"></div></div></div>
+      <div class="rij"><div>Bestemming</div><div>22:15</div><div>Op tijd</div><div>IC</div><div class="personen"><div class="persoon"></div><div class="persoon blauw"></div><div class="persoon licht"></div></div></div>
+    </div>
+
+    <div class="onderdeel">
+      <div class="kaart">
+        <div>ANTWERPEN</div>
+        <div class="temp">17°</div>
+        <div class="meta">BEWOLKT<br>H:17° L:11°</div>
+      </div>
+
+      <div class="kaart wit">
+        <div>INFO</div>
+        <div style="font-size:60px;">🚭</div>
+      </div>
+
+      <div class="kaart wit">
+        <canvas id="clock"></canvas>
+      </div>
+
+      <div class="kaart wit foto">
+        <div>TE DOEN IN DE BUURT</div>
+        <img id="slide" src="https://upload.wikimedia.org/wikipedia/commons/1/15/Antwerpen_Central_Station_2018.jpg" alt="Antwerpen" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slides = [
+      "https://upload.wikimedia.org/wikipedia/commons/1/15/Antwerpen_Central_Station_2018.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/99/Antwerpen_Grote_Markt_01.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/MAS_Antwerp_evening.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/2/2a/Zoo_Antwerpen_-_leeuw.jpg"
+    ];
+    let index = 0;
+    setInterval(() => {
+      index = (index + 1) % slides.length;
+      document.getElementById('slide').src = slides[index];
+    }, 4000);
+
+    // Analoge klok
+    const canvas = document.getElementById('clock');
+    const ctx = canvas.getContext('2d');
+    function drawClock() {
+      const now = new Date();
+      const radius = canvas.height / 2;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(radius, radius);
+      ctx.beginPath();
+      ctx.arc(0, 0, radius - 2, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      ctx.strokeStyle = '#72b2ff';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      for (let num = 1; num <= 12; num++) {
+        const ang = num * Math.PI / 6;
+        ctx.rotate(ang);
+        ctx.translate(0, -radius * 0.85);
+        ctx.rotate(-ang);
+        ctx.fillStyle = '#0b1b61';
+        ctx.font = '10px Montserrat';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.fillText(num.toString(), 0, 0);
+        ctx.rotate(ang);
+        ctx.translate(0, radius * 0.85);
+        ctx.rotate(-ang);
+      }
+      const hour = now.getHours() % 12;
+      const minute = now.getMinutes();
+      const second = now.getSeconds();
+      const hourAngle = (Math.PI / 6) * (hour + minute / 60);
+      const minuteAngle = (Math.PI / 30) * minute;
+      const secondAngle = (Math.PI / 30) * second;
+      ctx.strokeStyle = '#0b1b61';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.rotate(hourAngle);
+      ctx.moveTo(0, 5);
+      ctx.lineTo(0, -radius * 0.5);
+      ctx.stroke();
+      ctx.rotate(-hourAngle);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.rotate(minuteAngle);
+      ctx.moveTo(0, 8);
+      ctx.lineTo(0, -radius * 0.7);
+      ctx.stroke();
+      ctx.rotate(-minuteAngle);
+      ctx.strokeStyle = '#72b2ff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.rotate(secondAngle);
+      ctx.moveTo(0, 10);
+      ctx.lineTo(0, -radius * 0.8);
+      ctx.stroke();
+      ctx.restore();
+    }
+    setInterval(drawClock, 1000);
+    drawClock();
+  </script>
+</body>
+</html>

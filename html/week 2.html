@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project — Week 1</title>
+
+<style>
+/* DARK MODE (default) */
+:root {
+    --bg1: radial-gradient(circle at 20% 20%, #1e3a8a 0%, #0f172a 80%);
+    --text: #ffffff;
+    --nav-bg: rgba(15, 23, 42, 0.6);
+}
+
+/* LIGHT MODE (gele achtergrond blijft!) */
+:root.light {
+    --bg1: radial-gradient(circle at 20% 20%, #fff6b0 0%, #f2e89c 100%);
+    --text: #003366;
+    --nav-bg: rgba(255, 245, 180, 0.9);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: var(--bg1);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* ==== MOUSE GLOW ==== */
+.mouse-glow {
+    position: fixed;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: radial-gradient(circle, rgba(255, 230, 120, 0.85), transparent 70%);
+    z-index: 9999;
+}
+
+/* Light-mode BLUE glow */
+:root.light .mouse-glow {
+    mix-blend-mode: normal;
+    background: radial-gradient(circle, rgba(0,110,255,0.7), transparent 65%);
+}
+
+/* ==== SPARK EFFECT ==== */
+.spark {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 1;
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+    background: radial-gradient(circle, rgba(255, 220, 120, 0.9), transparent 70%);
+    z-index: 1;
+}
+
+/* Light-mode BLUE sparks */
+:root.light .spark {
+    background: radial-gradient(circle, rgba(80,150,255,0.95), transparent 70%);
+}
+
+/* TOPBAR */
+.topbar {
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    position: absolute;
+    left: 1rem;
+    top: 0.9rem;
+}
+
+.logo svg {
+    width: 40px;
+    height: 40px;
+    fill: var(--text);
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.4rem .8rem;
+    border-radius: 6px;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.nav a:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.theme-toggle {
+    position: absolute;
+    right: 2.2rem;
+    top: 1rem;
+    background: transparent;
+    border: 2px solid var(--text);
+    border-radius: 8px;
+    color: var(--text);
+    padding: .4rem .6rem;
+    cursor: pointer;
+}
+
+/* HERO STRUCTURE */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 1rem 3rem;
+    text-align: left;
+}
+
+.hero-content {
+    max-width: 900px;
+    padding: 2rem;
+    background: rgba(255,255,255,0.06);
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 40px rgba(0,0,0,0.25);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+    100% { transform: translateY(0); }
+}
+
+.title {
+    font-size: clamp(2.4rem, 5.4vw, 3.6rem);
+    background: linear-gradient(90deg, #fff 0%, #b0d9ff 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* LIGHT-MODE: TITEL = BLAUW */
+:root.light .title {
+    background: linear-gradient(90deg, #0055cc 0%, #4a9eff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.body {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    margin-top: 1.5rem;
+}
+
+/* === FULL IMAGE (ORIGINELE FORMAAT) === */
+.image-box {
+    margin-top: 2rem;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(6px);
+    padding: 10px;
+    box-shadow: 0 0 22px rgba(0,0,0,0.35);
+    transition: 0.3s;
+}
+
+.image-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 32px rgba(80,150,255,0.55);
+}
+
+.image-box img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Glow -->
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<header class="topbar">
+    <div class="logo">
+        <svg viewBox="0 0 64 64"><path d="M8 32c0-10 8-18 18-18h12c10 0 18 8 18 18s-8 18-18 18H26C16 50 8 42 8 32zm10 0c0 8 6 14 14 14h8c8 0 14-6 14-14s-6-14-14-14h-8c-8 0-14 6-14 14zm14-7h8l4 7-4 7h-8l-4-7 4-7z"/></svg>
+
+        <!-- ⭐ Updated title here -->
+        <span class="logo-text">Juule Keersmaekers</span>
+    </div>
+
+    <button class="theme-toggle" id="themeBtn">☀/🌙</button>
+
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="week 1.html">Week 1</a>
+        <a href="week 2.html">Week 2</a>
+        <a href="week 3.html">Week 3</a>
+        <a href="week 4.html">Week 4</a>
+        <a href="week 5.html">Week 5</a>
+        <a href="week 6.html">Week 6</a>
+        <a href="week 8.html">Week 8</a>
+        <a href="week 9.html">Week 9</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="title">Week 2</h1>
+        <p class="subtitle">Lowfidelity scherm (low-fi)</p>
+
+        <p class="body">
+           Week twee ging ik verder op één ontwerp en die verder te verfijnen. 
+            <br><br>
+            Ik heb meer gebruik gemaakt van kleur, om het ontwerp overzichtelijker te maken. 
+            Ook had ik het idee om de tussenstops van treinen op het vertrekscherm en perroninfoscherm te plaatsen. 
+            Zodat men direct de tussenstops kon bekijken.
+            <br><br>
+            Deze week had ik dus niet veel aangepast, maar vooral gewerkt aan het verduidelijken en verfijnen van de drie geselecteerde ontwerpen van Week 1 waaraan ik verder wou werken.     
+        </p>
+
+        <!-- FULL SIZE IMAGE -->
+        <div class="image-box">
+            <img src="week 2 foto.png" alt="Week 2 foto">
+        </div>
+
+    </div>
+</section>
+
+<script>
+/* MOUSE GLOW CENTER FIX */
+const glow = document.getElementById("mouseGlow");
+document.addEventListener("mousemove", (e) => {
+    glow.style.transform = `translate(${e.clientX - 130}px, ${e.clientY - 130}px)`;
+});
+
+/* SPARKS */
+document.addEventListener("mousemove", (e) => {
+    const spark = document.createElement("div");
+    spark.className = "spark";
+    document.body.appendChild(spark);
+
+    spark.style.left = e.pageX + "px";
+    spark.style.top = e.pageY + "px";
+
+    const angle = Math.random() * 360;
+    const dist = 25 + Math.random() * 35;
+
+    spark.style.transform =
+        `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
+
+    spark.style.opacity = 0;
+
+    setTimeout(() => spark.remove(), 650);
+});
+
+/* THEME TOGGLE */
+document.getElementById("themeBtn").addEventListener("click", () => {
+    document.documentElement.classList.toggle("light");
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+             
+
