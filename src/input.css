@@ -1,3 +1,275 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* === MERGED CUSTOM CSS === */
+
+
+/* typography.css */
+p{
+    margin-top: .5em;
+}
+h1{ 
+    font-size: 3em;
+    font-weight: extrabold;
+}
+h2{ 
+    font-size: 1.5em;
+    font-weight: bold;
+    opacity: .5; 
+}
+
+/* styles.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+body{
+    background-color: antiquewhite;
+    color: #161717;
+    height:auto;
+    min-height:100vh;
+    font-family: 'Roboto';
+}
+
+header{
+    background-color: antiquewhite;
+    font-family: 'Montserrat';
+
+}
+
+pre{
+    overflow: hidden;
+    font-size: .75em;
+}
+
+a{
+    font-weight: bold;
+}
+a:hover {
+    background-color: #161717;
+    color: #ffffff;
+}
+
+/* Container styling */
+.container {
+    font-family: 'Roboto';
+    max-width: 85vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    font-family: 'Montserrat';
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-top: 2em;
+}
+
+
+h1 {
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+}
+h2 {
+    font-family: 'Montserrat';
+}
+h3 {
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+
+
+
+/* nav.css */
+/* Navigation */
+
+.vertical-buttons {
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-weight: bold;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* stack vertically */
+    gap: 1px; /* space between buttons */
+}
+
+.vertical-buttons li a {
+    display: block;           /* makes the entire link clickable */
+    padding: 0px 0px;
+    background-color: inherit;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 1em;
+}
+
+.vertical-buttons li a:hover {
+    text-decoration: underline;
+}
+
+
+
+.btn {
+  position: relative;
+  font-size: 17px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1em 2.5em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+  font-weight: 500;
+  color: black;
+  background-color: white;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+.btn::after {
+  background-color: #fff;
+}
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
+
+
+/* flexboxes.css */
+.two-columns {
+    display: flex;
+    gap: 20px; /* spacing between columns */
+}
+
+.column {
+    flex: 1; /* each column takes equal space */
+}
+
+/* modal.css */
+
+/* Modal overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 1000;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    font-family: 'Montserrat';
+    background-color: #000000;
+    color: #e5e5e5;
+    padding: 30px 40px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.modal-content h2 {
+    margin: 0 0 10px;
+    color: #ffffff;
+}
+.modal-content hp {
+    margin: 0 0 10px;
+    color: #ffffff;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #929292;
+}
+
+.modal-close:hover {
+    color: #ffffff;
+}
+
+
+/* forms.css */
+form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #1976d2;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0f4c8c;
+}
+

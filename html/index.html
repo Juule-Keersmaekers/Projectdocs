@@ -1,4 +1,3 @@
-<!-- COMPLETE UPDATED INDEX.HTML WITH BLUE/LIGHT - YELLOW/DARK GLOW + CLEAR PARTICLE TRAIL -->
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -20,7 +19,7 @@
 
 :root.light {
     --bg1: radial-gradient(circle at 20% 20%, #fff6b0 0%, #f2e89c 100%);
-    --text: #0a0a0a; /* donkerder en duidelijker tekst */
+    --text: #0a0a0a;
     --nav-bg: rgba(255, 245, 180, 0.9);
     --cta-bg: #61a8ff;
     --cta-text: #0f172a;
@@ -39,7 +38,7 @@ body {
 }
 
 /* ============================================================
-   MOUSE GLOW — updated for dark/light modes
+   MOUSE GLOW
 ============================================================ */
 .mouse-glow {
     position: fixed;
@@ -50,24 +49,21 @@ body {
     mix-blend-mode: screen;
     transform: translate(-50%, -50%);
     z-index: 2;
-    opacity: 1;
-    transition: none;
 }
 
-/* Donker → GEEL */
+/* Donker → geel */
 :root:not(.light) .mouse-glow {
     background: radial-gradient(circle, rgba(255, 230, 120, 0.85), transparent 70%);
 }
 
-/* Licht → BLAUW */
+/* Licht → blauw */
 :root.light .mouse-glow {
-    /* FORCE Echt blauw, zonder wit filter-effect */
-    mix-blend-mode: normal; /* voorkomt dat blauw naar wit wordt gemengd */
+    mix-blend-mode: normal;
     background: radial-gradient(circle, rgba(0,120,255,0.9), transparent 65%);
 }
 
 /* ============================================================
-   PARTICLE TRAIL — duidelijke sparks
+   PARTICLE TRAIL
 ============================================================ */
 .spark {
     position: fixed;
@@ -76,7 +72,6 @@ body {
     border-radius: 50%;
     pointer-events: none;
     mix-blend-mode: screen;
-    opacity: 1;
     transition: transform 0.6s ease-out, opacity 0.6s ease-out;
     z-index: 1;
 }
@@ -106,28 +101,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* LOGO */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: .6rem;
-    position: absolute;
-    left: 1rem;
-    top: 0.9rem;
-}
-
-.logo svg {
-    width: 40px;
-    height: 40px;
-    fill: var(--text);
-}
-
-.logo-text {
-    font-size: 1.2rem;
-    font-weight: 700;
-}
-
-/* MENU */
 .nav {
     display: flex;
     gap: 1rem;
@@ -141,7 +114,6 @@ body {
     padding: 0.4rem .8rem;
     border-radius: 6px;
     transition: 0.2s;
-    white-space: nowrap;
 }
 
 .nav a:hover {
@@ -154,11 +126,7 @@ body {
     font-weight: 700;
 }
 
-.cta:hover {
-    background: #0ea5e9;
-}
-
-/* THEME SWITCH — rechts */
+/* THEME SWITCH */
 .theme-toggle {
     position: absolute;
     right: 2.2rem;
@@ -169,12 +137,6 @@ body {
     color: var(--text);
     padding: .4rem .6rem;
     cursor: pointer;
-    transition: .2s;
-    z-index: 200;
-}
-
-.theme-toggle:hover {
-    background: rgba(255,255,255,0.15);
 }
 
 /* ============================================================
@@ -194,11 +156,9 @@ body {
 .title {
     font-size: clamp(2.2rem, 5vw, 3.2rem);
     font-weight: 700;
-    text-shadow: 0 4px 25px rgba(0,0,0,.4);
 }
 
 .subtitle {
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
     margin-top: .7rem;
     color: #cbd5e1;
 }
@@ -212,22 +172,29 @@ body {
     border-radius: 12px;
     font-weight: 700;
     text-decoration: none;
-    transition: .25s;
-    font-size: 1rem;
-}
-
-.hero-button:hover {
-    transform: translateY(-3px);
 }
 
 /* ============================================================
-   RESPONSIVE FIXES
+   NAAM LINKS ONDER
+============================================================ */
+.corner-name {
+    position: fixed;
+    left: 1rem;
+    bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    opacity: 0.85;
+    z-index: 50;
+    pointer-events: none;
+}
+
+/* ============================================================
+   RESPONSIVE
 ============================================================ */
 @media (max-width: 700px) {
-    .logo { position: static; margin-bottom: .5rem; left: auto; top: auto; }
-    .theme-toggle { position: static; margin-top: .5rem; right: auto; top: auto; }
-    .topbar { flex-direction: column; padding-bottom: 1rem; }
-    .nav { justify-content: center; }
+    .theme-toggle { position: static; margin-top: .5rem; }
+    .topbar { flex-direction: column; }
 }
 </style>
 </head>
@@ -237,14 +204,13 @@ body {
 <!-- Glow -->
 <div class="mouse-glow" id="mouseGlow"></div>
 
+<!-- Naam links onder -->
+<div class="corner-name">
+    Juule Keersmaekers - 1GDM2
+</div>
+
 <!-- NAV -->
 <header class="topbar">
-
-    <div class="logo">
-        <svg viewBox="0 0 64 64"><path d="M8 32c0-10 8-18 18-18h12c10 0 18 8 18 18s-8 18-18 18H26C16 50 8 42 8 32zm10 0c0 8 6 14 14 14h8c8 0 14-6 14-14s-6-14-14-14h-8c-8 0-14 6-14 14zm14-7h8l4 7-4 7h-8l-4-7 4-7z"/></svg>
-        <span class="logo-text">Juule Keersmaekers </span>
-    </div>
-
     <button class="theme-toggle" id="themeBtn">☀/🌙</button>
 
     <nav class="nav">
@@ -257,48 +223,47 @@ body {
         <a href="week 6.html">Week 6</a>
         <a href="week 8.html">Week 8</a>
         <a href="week 9.html">Week 9</a>
+        <a href="Week 10.html">Week 10</a>
+        <a href="week 11.html">Week 11</a>
+        <a href="week 12.html">Week 12</a>
     </nav>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-    <div class="hero-content">
+    <div>
         <h1 class="title">Welkom bij mijn project</h1>
         <p class="subtitle">Ontdek mijn weken, opdrachten en voortgang</p>
-        <a href="week 1.html" class="hero-button">Start bekijken</a>
+        <a href="week 1.html" class="hero-button">Ga naar week 1</a>
     </div>
 </section>
 
 <script>
-/* ========= DIRECT TRACKING GLOW ========= */
+/* Glow volgt muis */
 const glow = document.getElementById("mouseGlow");
-
-document.addEventListener("mousemove", (e) => {
+document.addEventListener("mousemove", e => {
     glow.style.left = e.pageX + "px";
     glow.style.top = e.pageY + "px";
 });
 
-/* ========= IMPROVED SPARK TRAIL ========= */
-document.addEventListener("mousemove", (e) => {
+/* Spark trail */
+document.addEventListener("mousemove", e => {
     const spark = document.createElement("div");
     spark.className = "spark";
     document.body.appendChild(spark);
-
     spark.style.left = e.pageX + "px";
     spark.style.top = e.pageY + "px";
 
     const angle = Math.random() * 360;
     const dist = 30 + Math.random() * 40;
-
     spark.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
     spark.style.opacity = 0;
 
     setTimeout(() => spark.remove(), 650);
 });
 
-/* ========= THEME SWITCH ========= */
-const btn = document.getElementById("themeBtn");
-btn.addEventListener("click", () => {
+/* Theme switch */
+document.getElementById("themeBtn").addEventListener("click", () => {
     document.documentElement.classList.toggle("light");
 });
 </script>
