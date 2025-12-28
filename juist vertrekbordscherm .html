@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vertrekbordscherm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b2260;
+      --cyan:#0db0ff;
+      --cyan-dark:#0aa0e6;
+      --cream:#fff9d3;
+      --white:#ffffff;
+      --text:#111;
+      --blue:#0aa0e6;
+      --grey:#bfc3c7;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; background:var(--bg); font-family:'Montserrat',sans-serif; display:flex; align-items:center; justify-content:center; padding:30px;
+    }
+    .board{
+      width:1200px; max-width:96vw; background:#fffef0; border:18px solid var(--cream); box-shadow:0 0 0 6px var(--cyan);
+      box-sizing:border-box; padding:18px; position:relative; transition:box-shadow 0.3s ease;
+    }
+    .topbar{display:flex; gap:18px; align-items:center; justify-content:space-between; margin-bottom:10px}
+    .title{background:var(--cyan); color:var(--white); padding:10px 20px; font-weight:800; font-size:38px; border-radius:4px;}
+    .date-time{display:flex; gap:10px; align-items:center}
+    .date-time .box{background:var(--cyan); color:var(--white); padding:10px 18px; font-weight:800; font-size:30px; border-radius:4px;}
+    .header-row{display:grid; grid-template-columns: 1.8fr 0.9fr 0.7fr 0.6fr 0.5fr 0.6fr; background:var(--cyan); color:var(--white); font-weight:800; font-size:22px; border-radius:4px; text-align:center; border-bottom:6px solid var(--cyan-dark);}
+    .header-row div{padding:8px 0; border-right:6px solid var(--cyan-dark);} .header-row div:last-child{border-right:none;}
+    .table{border-left:6px solid var(--cyan-dark); border-right:6px solid var(--cyan-dark); border-bottom:6px solid var(--cyan-dark); background:#fffef0;}
+    .row{display:grid; grid-template-columns: 1.8fr 0.9fr 0.7fr 0.6fr 0.5fr 0.6fr; align-items:stretch; border-bottom:6px solid var(--cyan-dark);} 
+    .row.alt .cell{background:var(--white);} 
+    .row:not(.alt) .cell{background:var(--cream);} 
+    .cell{box-sizing:border-box; padding:14px; font-size:30px; font-weight:700; color:var(--text); display:flex; align-items:center; justify-content:center; border-right:6px solid var(--cyan-dark);} 
+    .cell:last-child{border-right:none} 
+    .cell.small{font-size:26px;} 
+    .row.cancelled .cell{opacity:0.6; color:#999;} 
+    .row.cancelled .cell.small .cell-text{font-size:14px; line-height:1; display:inline-block;} 
+    .people{display:flex; gap:10px; align-items:flex-end; justify-content:center} 
+    .person{position:relative; width:22px; height:22px; background:var(--blue); border-radius:50%;} 
+    .person::after{content:''; position:absolute; top:18px; left:50%; transform:translateX(-50%); width:30px; height:22px; border-radius:6px; background:var(--blue);} 
+    .person.grey{background:var(--grey);} .person.grey::after{background:var(--grey);} 
+  
+
+</style>
+
+<style>
+.corner-name {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    font-size: 0.85rem;
+    color: white;
+    opacity: 0.85;
+    z-index: 9999;
+    pointer-events: none;
+}
+</style>
+
+</head>
+<body>
+  <div class="board">
+    <div class="topbar">
+      <div class="title">VERTREKBORDSCHERM</div>
+      <div class="date-time">
+        <div class="box" id="dateBox"></div>
+        <div class="box" id="timeBox"></div>
+      </div>
+    </div>
+
+    <div class="header-row">
+      <div>BESTEMMING</div><div>VERTREKTIJD</div><div>STATUS</div><div>TYPE</div><div>PERRON</div><div>DRUKTE</div>
+    </div>
+
+    <div class="table" id="departures"></div>
+  </div>
+
+  <script>
+    const departures = [
+      { dest: 'Brussel-Zuid', time: '22:04', status: 'Op tijd', type: 'IC', perron: '12', crowd: 1 },
+      { dest: 'Hasselt', time: '22:23', status: '+5', type: 'S', perron: '4', crowd: 3 },
+      { dest: 'Gent-Sint-Pieters', time: '22:27', status: 'Op tijd', type: 'IC', perron: '1', crowd: 2 },
+      { dest: 'Leuven', time: '22:40', status: 'Geannuleerd', type: 'IC', perron: '12', crowd: 0 },
+      { dest: 'Charleroi-Zuid', time: '22:45', status: '+12', type: 'S', perron: '10', crowd: 2 },
+      { dest: 'Luik-Guillemins', time: '23:02', status: 'Op tijd', type: 'IC', perron: '7', crowd: 1 },
+      { dest: 'Brugge', time: '23:15', status: 'Op tijd', type: 'IC', perron: '5', crowd: 2 }
+    ];
+
+    function makePeople(crowd){
+      const total = 3;
+      let html = '';
+      for(let i=0;i<total;i++){
+        html += `<span class="person ${i < crowd ? '' : 'grey'}"></span>`;
+      }
+      return `<div class="people">${html}</div>`;
+    }
+
+    const table = document.getElementById('departures');
+    departures.forEach((d,i)=>{
+      const cancelled = d.status.toLowerCase().includes('geannuleerd');
+      const row = document.createElement('div');
+      row.className = 'row' + (i%2 ? ' alt' : '') + (cancelled ? ' cancelled' : '');
+      row.innerHTML = `
+        <div class="cell">${d.dest}</div>
+        <div class="cell">${d.time}</div>
+        <div class="cell small"><span class="cell-text">${d.status}</span></div>
+        <div class="cell small">${d.type}</div>
+        <div class="cell small">${d.perron}</div>
+        <div class="cell small">${makePeople(d.crowd)}</div>`;
+      table.appendChild(row);
+    });
+
+    function updateTime(){
+      const now = new Date();
+      const options = { weekday: 'long', day: '2-digit', month: '2-digit' };
+      document.getElementById('dateBox').textContent = now.toLocaleDateString('nl-NL', options).toUpperCase();
+      document.getElementById('timeBox').textContent = now.toLocaleTimeString('nl-NL', {hour:'2-digit', minute:'2-digit'});
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+
+
+
+
+<div class="corner-name">Juule Keersmaekers - 1GDM2</div>
+
+<!-- LIGHTBOX OVERLAY -->
+<div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+  <button onclick="closeLightbox()" style="position:absolute; top:20px; right:30px; font-size:32px; color:white; background:none; border:none; cursor:pointer;">✕</button>
+  <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:12px;">
+</div>
+
+<script>
+function openLightbox(src) {
+  const box = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  img.src = src;
+  box.style.display = "flex";
+}
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") closeLightbox();
+});
+</script>
+
+</body>
+</html>

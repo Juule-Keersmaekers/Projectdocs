@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Treinplattegrond - Pijlen overlappen wagons</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b2260;
+      --cyan:#43b0ff;
+      --cream:#fff7d6;
+      --ink:#06112a;
+      --grey:#9f9f9f;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;padding:24px}
+
+    .canvas{width:1200px;max-width:96vw;background:var(--cream);padding:26px;border:18px solid var(--cream);box-shadow:0 0 0 8px var(--bg);}
+
+    .top{display:grid;grid-template-columns:1fr 200px 1fr;align-items:center;gap:18px}
+    .badge{background:var(--cyan);color:#fff;padding:10px 20px;font-weight:800;font-size:40px;border-radius:4px;text-align:center}
+    .time-center{background:var(--cyan);color:#fff;padding:10px 36px;font-weight:800;font-size:40px;border-radius:4px;text-align:center}
+    .perron{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+    .perron-badge,.perron-num{background:var(--cyan);color:#fff;padding:10px 20px;font-weight:800;font-size:32px;border-radius:4px}
+
+    .diagram{margin-top:40px;position:relative;height:500px}
+
+    .carriage-row{display:flex;gap:10px;align-items:flex-end;justify-content:center;margin-top:20px;position:relative}
+
+    .carriage{
+      background:var(--cyan);
+      width:150px;
+      height:150px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color:#fff;
+      font-size:22px;
+      font-weight:800;
+      border-radius:4px;
+    }
+    .carriage.start{clip-path:polygon(20% 0,100% 0,100% 100%,20% 100%,0 50%)}
+    .carriage.end{clip-path:polygon(0 0,80% 0,100% 50%,80% 100%,0 100%)}
+
+    /* ⬇⬇⬇ Pijlen naar binnen (horizontaal dichter bij elkaar) ⬇⬇⬇ */
+    .arrow{
+      position:absolute;
+      top:210px; 
+      transform:translateY(-50%);
+      font-size:100px;
+      font-weight:800;
+      z-index:5;
+    }
+    .arrow.left{left:140px; color:#ccc}   /* <-- van -10px naar 40px */
+    .arrow.right{right:140px; color:var(--ink)}  /* <-- ook naar binnen */
+
+    .icon-row{display:flex;gap:10px;margin-top:10px}
+    .icon-box{width:44px;height:44px;background:#fff;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:24px}
+
+    .horizontal-line{width:90%;height:6px;background:var(--ink);position:absolute;top:330px;left:5%;border-radius:3px}
+
+    .stops{display:flex;justify-content:space-between;position:absolute;top:300px;width:90%;left:5%}
+    .stop{display:flex;flex-direction:column;align-items:center}
+    .stop .bar{width:6px;height:90px;background:var(--ink)}
+    .stop .name{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:800;font-size:18px;color:var(--ink);text-align:center;margin-top:6px}
+
+    .bottom{display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+    .left-bottom{font-size:58px;font-weight:800;color:var(--bg);letter-spacing:6px}
+    .status{font-size:56px;margin-left:18px}
+
+    .right-bottom{display:flex;align-items:center;gap:10px}
+    .type{font-size:40px;font-weight:800;color:var(--bg)}
+    .people{display:flex;gap:20px;align-items:center}
+    .person{position:relative;width:28px;height:28px;background:var(--cyan);border-radius:50%}
+    .person::after{content:'';position:absolute;top:26px;left:50%;transform:translateX(-50%);width:36px;height:26px;background:var(--cyan);border-radius:10px}
+    .person.grey{background:var(--grey)}
+    .person.grey::after{background:var(--grey)}
+  
+
+</style>
+
+<style>
+.corner-name {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    font-size: 0.85rem;
+    color: white;
+    opacity: 0.85;
+    z-index: 9999;
+    pointer-events: none;
+}
+</style>
+
+</head>
+<body>
+  <div class="canvas">
+    <div class="top">
+      <div class="badge">BESTEMMING</div>
+      <div class="time-center">22:00</div>
+      <div class="perron"><div class="perron-badge">PERRON</div><div class="perron-num">12</div></div>
+    </div>
+
+    <div class="diagram">
+      <div class="carriage-row">
+        <div class="arrow left">←</div>
+
+        <div class="carriage start"></div>
+
+        <div class="carriage">
+          <div>1STE KLAS</div>
+          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">📶</div></div>
+        </div>
+
+        <div class="carriage">
+          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">🚲</div></div>
+        </div>
+
+        <div class="carriage">
+          <div>1STE KLAS</div>
+          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">📶</div></div>
+        </div>
+
+        <div class="carriage">
+          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">🔇</div></div>
+        </div>
+
+        <div class="carriage end"></div>
+
+        <div class="arrow right">→</div>
+      </div>
+
+      <div class="horizontal-line"></div>
+
+      <div class="stops">
+        <div class="stop"><div class="bar"></div><div class="name">Antwerpen<br>Centraal</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">Antwerpen<br>Berchem</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="left-bottom"><span>22:04</span><span class="status">OP TIJD</span></div>
+      <div class="right-bottom"><div class="type">IC</div><div class="people"><div class="person grey"></div><div class="person grey"></div><div class="person"></div></div></div>
+    </div>
+  </div>
+
+
+
+
+<div class="corner-name">Juule Keersmaekers - 1GDM2</div>
+
+<!-- LIGHTBOX OVERLAY -->
+<div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+  <button onclick="closeLightbox()" style="position:absolute; top:20px; right:30px; font-size:32px; color:white; background:none; border:none; cursor:pointer;">✕</button>
+  <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:12px;">
+</div>
+
+<script>
+function openLightbox(src) {
+  const box = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  img.src = src;
+  box.style.display = "flex";
+}
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") closeLightbox();
+});
+</script>
+
+</body>
+</html>
