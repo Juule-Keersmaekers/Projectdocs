@@ -14,7 +14,16 @@
       --grey:#9f9f9f;
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;padding:24px}
+   body{
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Montserrat',sans-serif;
+  padding:0;
+  height:100vh;
+  overflow:hidden;
+}
 
     .canvas{width:1200px;max-width:96vw;background:var(--cream);padding:26px;border:18px solid var(--cream);box-shadow:0 0 0 8px var(--bg);}
 
@@ -45,7 +54,6 @@
     .carriage.start{clip-path:polygon(20% 0,100% 0,100% 100%,20% 100%,0 50%)}
     .carriage.end{clip-path:polygon(0 0,80% 0,100% 50%,80% 100%,0 100%)}
 
-    /* ⬇⬇⬇ Pijlen naar binnen (horizontaal dichter bij elkaar) ⬇⬇⬇ */
     .arrow{
       position:absolute;
       top:210px; 
@@ -54,8 +62,8 @@
       font-weight:800;
       z-index:5;
     }
-    .arrow.left{left:140px; color:#ccc}   /* <-- van -10px naar 40px */
-    .arrow.right{right:140px; color:var(--ink)}  /* <-- ook naar binnen */
+    .arrow.left{left:140px; color:#ccc}
+    .arrow.right{right:140px; color:var(--ink)}
 
     .icon-row{display:flex;gap:10px;margin-top:10px}
     .icon-box{width:44px;height:44px;background:#fff;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:24px}
@@ -78,30 +86,28 @@
     .person::after{content:'';position:absolute;top:26px;left:50%;transform:translateX(-50%);width:36px;height:26px;background:var(--cyan);border-radius:10px}
     .person.grey{background:var(--grey)}
     .person.grey::after{background:var(--grey)}
-  
-
-</style>
-
-<style>
-.corner-name {
-    position: fixed;
-    bottom: 16px;
-    left: 16px;
-    font-size: 0.85rem;
-    color: white;
-    opacity: 0.85;
-    z-index: 9999;
-    pointer-events: none;
-}
-</style>
-
+  </style>
 </head>
+
 <body>
   <div class="canvas">
     <div class="top">
-      <div class="badge">BESTEMMING</div>
-      <div class="time-center">22:00</div>
-      <div class="perron"><div class="perron-badge">PERRON</div><div class="perron-num">12</div></div>
+      <div class="badge">GENT-SINT-PIETERS</div>
+      <div class="time-center" id="current-time">22:00</div>
+      <div class="perron">
+        <div class="perron-badge">PERRON</div>
+        <div class="perron-num">12</div>
+        <script>
+function updateTime() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('current-time').textContent = `${h}:${m}`;
+}
+updateTime();
+setInterval(updateTime, 1000);
+</script>
+      </div>
     </div>
 
     <div class="diagram">
@@ -112,20 +118,32 @@
 
         <div class="carriage">
           <div>1STE KLAS</div>
-          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">📶</div></div>
+          <div class="icon-row">
+            <div class="icon-box">♿</div>
+            <div class="icon-box">📶</div>
+          </div>
         </div>
 
         <div class="carriage">
-          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">🚲</div></div>
+          <div class="icon-row">
+            <div class="icon-box">♿</div>
+            <div class="icon-box">🚲</div>
+          </div>
         </div>
 
         <div class="carriage">
           <div>1STE KLAS</div>
-          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">📶</div></div>
+          <div class="icon-row">
+            <div class="icon-box">♿</div>
+            <div class="icon-box">📶</div>
+          </div>
         </div>
 
         <div class="carriage">
-          <div class="icon-row"><div class="icon-box">♿</div><div class="icon-box">🔇</div></div>
+          <div class="icon-row">
+            <div class="icon-box">♿</div>
+            <div class="icon-box">🔇</div>
+          </div>
         </div>
 
         <div class="carriage end"></div>
@@ -138,44 +156,33 @@
       <div class="stops">
         <div class="stop"><div class="bar"></div><div class="name">Antwerpen<br>Centraal</div></div>
         <div class="stop"><div class="bar"></div><div class="name">Antwerpen<br>Berchem</div></div>
-        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
-        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
-        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
-        <div class="stop"><div class="bar"></div><div class="name">tussenstop</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">Mechelen</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">Brussel<br>Centraal</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">Gent<br>Dampoort</div></div>
+        <div class="stop"><div class="bar"></div><div class="name">Gent<br>Sint-Pieters</div></div>
       </div>
     </div>
 
     <div class="bottom">
-      <div class="left-bottom"><span>22:04</span><span class="status">OP TIJD</span></div>
-      <div class="right-bottom"><div class="type">IC</div><div class="people"><div class="person grey"></div><div class="person grey"></div><div class="person"></div></div></div>
+      <div class="left-bottom">
+        <span>22:04</span>
+        <span class="status">OP TIJD</span>
+      </div>
+      <div class="right-bottom">
+        <div class="type">IC</div>
+        <div class="people">
+          <div class="person grey"></div>
+          <div class="person grey"></div>
+          <div class="person"></div>
+        </div>
+      </div>
     </div>
   </div>
 
 
 
 
-<div class="corner-name">Juule Keersmaekers - 1GDM2</div>
 
-<!-- LIGHTBOX OVERLAY -->
-<div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
-  <button onclick="closeLightbox()" style="position:absolute; top:20px; right:30px; font-size:32px; color:white; background:none; border:none; cursor:pointer;">✕</button>
-  <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:12px;">
-</div>
-
-<script>
-function openLightbox(src) {
-  const box = document.getElementById("lightbox");
-  const img = document.getElementById("lightbox-img");
-  img.src = src;
-  box.style.display = "flex";
-}
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
-}
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape") closeLightbox();
-});
-</script>
 
 </body>
 </html>
